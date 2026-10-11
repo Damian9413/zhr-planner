@@ -15,5 +15,7 @@ public class WorkPlan
     
     public int TroopId { get; set; }
     public Troop Troop { get; set; } = null!;
+    
+    public ICollection<Goal> Goals { get; set; } = new List<Goal>();
 
 }
