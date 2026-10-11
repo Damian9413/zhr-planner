@@ -13,4 +13,7 @@ public class WorkPlan
     public string? Location { get; set; }
     public string? DailySchedule { get; set; }
     
+    public int TroopId { get; set; }
+    public Troop Troop { get; set; } = null!;
+
 }
