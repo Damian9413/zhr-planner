@@ -11,4 +11,6 @@ public class Goal
     
     public int WorkPlanId { get; set; }
     public WorkPlan WorkPlan { get; set; } = null!;
+    
+    public ICollection<ActivityGoal> ActivityGoals { get; set; } = new List<ActivityGoal>();
 }
