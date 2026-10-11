@@ -13,4 +13,10 @@ public class WorkPlan
     public string? Location { get; set; }
     public string? DailySchedule { get; set; }
     
+    public int TroopId { get; set; }
+    public Troop Troop { get; set; } = null!;
+    
+    public ICollection<Goal> Goals { get; set; } = new List<Goal>();
+    public ICollection<Activity> Activities { get; set; } = new List<Activity>();
+
 }
