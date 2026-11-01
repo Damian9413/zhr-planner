@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17
+    container_name: zhrplanner-db
+    environment:
+      POSTGRES_USER: zhrplanner
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: zhrplanner
+    ports:
+      - "5432:5432"
+    volumes:
+      - zhrplanner-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  zhrplanner-data:
