@@ -20,5 +20,17 @@ public class AppDbContext : DbContext
     {
         modelBuilder.Entity<ActivityGoal>()
             .HasKey(e => new { e.ActivityId, e.GoalId }); // The same activity cannot be linked to the same goal twice.
+        
+        modelBuilder.Entity<WorkPlan>()
+            .Property(wp => wp.TripType)
+            .HasConversion<string>();
+
+        modelBuilder.Entity<WorkPlan>()
+            .Property(wp => wp.Status)
+            .HasConversion<string>();
+
+        modelBuilder.Entity<Goal>()
+            .Property(g => g.Category)
+            .HasConversion<string>();
     }
 }
