@@ -21,3 +21,43 @@ GET {{host}}/api/troops
 
 ###
 GET {{host}}/api/troops/1
+
+### poprawny plan
+POST {{host}}/api/workplans
+Content-Type: application/json
+
+{
+  "name": "Zimowisko 2027",
+  "tripType": "WinterCamp",
+  "startDate": "2027-01-20",
+  "endDate": "2027-01-27",
+  "location": "Bieszczady",
+  "troopId": 1
+}
+
+### nieistniejąca drużyna → 400
+POST {{host}}/api/workplans
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "tripType": "WinterCamp",
+  "startDate": "2027-01-20",
+  "endDate": "2027-01-27",
+  "troopId": 999
+}
+
+### odwrócone daty → 400
+POST {{host}}/api/workplans
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "tripType": "WinterCamp",
+  "startDate": "2027-01-27",
+  "endDate": "2027-01-20",
+  "troopId": 1
+}
+
+### lista planów
+GET {{host}}/api/workplans
