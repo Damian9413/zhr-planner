@@ -8,7 +8,14 @@ Content-Type: application/json
   "shortName": "1 KDH",
   "fullName": "1 Krakowska Drużyna Harcerzy"
 }
+###
+POST {{host}}/api/troops
+Content-Type: application/json
 
+{
+  "shortName": "",
+  "fullName": null
+}
 ###
 GET {{host}}/api/troops
 
