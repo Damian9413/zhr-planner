@@ -24,4 +24,12 @@ public class TroopsController : ControllerBase
             .ToListAsync();
         return Ok(troops);
     }
+
+    [HttpGet("{int:id}")]
+    public async Task<ActionResult<TroopResponse>> GetById(int id)
+    {
+        var troop = await _context.Troops.FindAsync(id);
+        if (troop is null) return NotFound();
+        return Ok(new TroopResponse(troop.Id, troop.ShortName, troop.FullName));
+    }
 }
