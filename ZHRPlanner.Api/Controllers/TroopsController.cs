@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZHRPlanner.Api.Data;
+using ZHRPlanner.Api.Domain.Entities;
 using ZHRPlanner.Api.Dtos.Troops;
 
 namespace ZHRPlanner.Api.Controllers;
@@ -25,11 +26,21 @@ public class TroopsController : ControllerBase
         return Ok(troops);
     }
 
-    [HttpGet("{int:id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<TroopResponse>> GetById(int id)
     {
         var troop = await _context.Troops.FindAsync(id);
         if (troop is null) return NotFound();
         return Ok(new TroopResponse(troop.Id, troop.ShortName, troop.FullName));
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<TroopResponse>> Create(CreateTroopRequest request)
+    {
+        var troop = new Troop { ShortName = request.ShortName, FullName = request.FullName };
+        _context.Troops.Add(troop);
+        await _context.SaveChangesAsync();
+        
+        return CreatedAtAction(nameof(GetById), new { id =  troop.Id }, new TroopResponse(troop.Id, troop.ShortName, troop.FullName));
     }
 }
