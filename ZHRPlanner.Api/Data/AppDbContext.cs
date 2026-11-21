@@ -1,36 +1,47 @@
-using Microsoft.EntityFrameworkCore;
-using ZHRPlanner.Api.Domain.Entities;
+    using Microsoft.EntityFrameworkCore;
+    using ZHRPlanner.Api.Domain.Entities;
 
-namespace ZHRPlanner.Api.Data;
+    namespace ZHRPlanner.Api.Data;
 
-public class AppDbContext : DbContext
-{
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) // Constructor for the AppDbContext class, which takes DbContextOptions
-                                                                                // as a parameter and passes it to the base DbContext class.
+    public class AppDbContext : DbContext
     {
-    }
-    
-    public DbSet<Activity> Activities { get; set; } = null!;
-    public DbSet<ActivityGoal> ActivityGoals { get; set; } = null!;
-    public DbSet<Goal> Goals { get; set; } = null!;
-    public DbSet<WorkPlan> WorkPlans { get; set; } = null!;
-    public DbSet<Troop> Troops { get; set; } = null!;
-    
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<ActivityGoal>()
-            .HasKey(e => new { e.ActivityId, e.GoalId }); // The same activity cannot be linked to the same goal twice.
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) // Constructor for the AppDbContext class, which takes DbContextOptions
+                                                                                    // as a parameter and passes it to the base DbContext class.
+        {
+        }
         
-        modelBuilder.Entity<WorkPlan>()
-            .Property(wp => wp.TripType)
-            .HasConversion<string>();
+        public DbSet<Activity> Activities { get; set; } = null!;
+        public DbSet<ActivityGoal> ActivityGoals { get; set; } = null!;
+        public DbSet<Goal> Goals { get; set; } = null!;
+        public DbSet<WorkPlan> WorkPlans { get; set; } = null!;
+        public DbSet<Troop> Troops { get; set; } = null!;
 
-        modelBuilder.Entity<WorkPlan>()
-            .Property(wp => wp.Status)
-            .HasConversion<string>();
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ActivityGoal>()
+                .HasKey(e => new { e.ActivityId, e.GoalId }); // The same activity cannot be linked to the same goal twice.
 
-        modelBuilder.Entity<Goal>()
-            .Property(g => g.Category)
-            .HasConversion<string>();
+            modelBuilder.Entity<Troop>()
+                    .Property(t => t.ShortName)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<Troop>()
+                    .Property(t => t.FullName)
+                .HasMaxLength(200);
+
+            modelBuilder.Entity<WorkPlan>()
+                .Property(wp => wp.TripType)
+                .HasConversion<string>();
+
+
+            modelBuilder.Entity<WorkPlan>()
+                .Property(wp => wp.Status)
+                .HasConversion<string>();
+
+
+            modelBuilder.Entity<Goal>()
+                .Property(g => g.Category)
+                .HasConversion<string>();
+
+        }
     }
-}

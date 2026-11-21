@@ -1,6 +1,23 @@
-@ZHRPlanner.Api_HostAddress = http://localhost:5045
-
-GET {{ZHRPlanner.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+@host = http://localhost:5045
 
 ###
+POST {{host}}/api/troops
+Content-Type: application/json
+
+{
+  "shortName": "1 KDH",
+  "fullName": "1 Krakowska Drużyna Harcerzy"
+}
+###
+POST {{host}}/api/troops
+Content-Type: application/json
+
+{
+  "shortName": "",
+  "fullName": null
+}
+###
+GET {{host}}/api/troops
+
+###
+GET {{host}}/api/troops/1
