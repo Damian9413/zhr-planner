@@ -61,3 +61,36 @@ Content-Type: application/json
 
 ### lista planów
 GET {{host}}/api/workplans
+
+### dodaj cel do planu 1
+POST {{host}}/api/workplans/1/goals
+Content-Type: application/json
+
+{
+  "name": "Harcerze potrafią rozpalić ognisko jedną zapałką",
+  "category": "Scouting",
+  "description": "Zajęcia terenowe w zastępach"
+}
+
+### cel bez kategorii → 400
+POST {{host}}/api/workplans/1/goals
+Content-Type: application/json
+
+{
+  "name": "Test"
+}
+
+### cel do nieistniejącego planu → 404
+POST {{host}}/api/workplans/999/goals
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "category": "Methodological"
+}
+
+### cele planu 1
+GET {{host}}/api/workplans/1/goals
+
+### cel 1 z planu 1
+GET {{host}}/api/workplans/1/goals/1
