@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ZHRPlanner.Api.Data;
 using ZHRPlanner.Api.Domain.Entities;
 using ZHRPlanner.Api.Dtos.Troops;
+using ZHRPlanner.Api.Mappings;
 
 namespace ZHRPlanner.Api.Controllers;
 
@@ -20,10 +21,8 @@ public class TroopsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<TroopResponse>>> GetAll()
     {
-        var troops = await _context.Troops
-            .Select(t => new TroopResponse(t.Id, t.ShortName, t.FullName))
-            .ToListAsync();
-        return Ok(troops);
+        var troops = await _context.Troops.ToListAsync();
+        return Ok(troops.Select(t => t.ToResponse()).ToList());
     }
 
     [HttpGet("{id:int}")]
@@ -31,7 +30,7 @@ public class TroopsController : ControllerBase
     {
         var troop = await _context.Troops.FindAsync(id);
         if (troop is null) return NotFound();
-        return Ok(new TroopResponse(troop.Id, troop.ShortName, troop.FullName));
+        return Ok(troop.ToResponse());
     }
 
     [HttpPost]
@@ -41,6 +40,6 @@ public class TroopsController : ControllerBase
         _context.Troops.Add(troop);
         await _context.SaveChangesAsync();
         
-        return CreatedAtAction(nameof(GetById), new { id =  troop.Id }, new TroopResponse(troop.Id, troop.ShortName, troop.FullName));
+        return CreatedAtAction(nameof(GetById), new { id = troop.Id }, troop.ToResponse());
     }
 }
