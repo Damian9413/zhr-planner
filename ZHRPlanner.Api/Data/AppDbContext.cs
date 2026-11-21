@@ -55,5 +55,13 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Goal>()
             .Property(g => g.Category)
             .HasConversion<string>();
+        
+        modelBuilder.Entity<Goal>()
+            .Property(g => g.Name)
+            .HasMaxLength(200);
+
+        modelBuilder.Entity<Goal>()
+            .Property(g => g.Description)
+            .HasMaxLength(1000);
     }
 }
